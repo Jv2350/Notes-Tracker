@@ -1,36 +1,26 @@
-import { FormEvent, useRef, useState } from "react"
-import { Button, Col, Form, Row, Stack } from "react-bootstrap"
-import { NoteData, Tag } from "./App"
+import { useRef, useState, type FormEvent } from "react";
+import { Button, Col, Form, Row, Stack } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import CreatableReactSelect from "react-select/creatable";
+import type { NoteData, Tag } from "../App";
 
 type NoteFormProps = {
-  onSubmit: (data: NoteData) => void
-  onAddTag: (tag: Tag) => void
-  availableTags: Tag[]
-} & Partial<NoteData>
+  onSubmit: (data: NoteData) => void;
+};
 
-export function NoteForm({
-  onSubmit,
-  onAddTag,
-  availableTags,
-  title = "",
-  markdown = "",
-  tags = [],
-}: NoteFormProps) {
-  const titleRef = useRef<HTMLInputElement>(null)
-  const markdownRef = useRef<HTMLTextAreaElement>(null)
-  const [selectedTags, setSelectedTags] = useState<Tag[]>(tags)
-  const navigate = useNavigate()
+export default function NoteForm({ onSubmit }: NoteFormProps) {
+  const titleRef = useRef<HTMLInputElement>(null);
+  const markdownRef = useRef<HTMLTextAreaElement>(null);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
   function handleSubmit(e: FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
 
     onSubmit({
       title: titleRef.current!.value,
       markdown: markdownRef.current!.value,
-      tags: selectedTags,
-    })
-
-    navigate("..")
+      tags: [],
+    });
   }
 
   return (
@@ -40,27 +30,31 @@ export function NoteForm({
           <Col>
             <Form.Group controlId="title">
               <Form.Label>Title</Form.Label>
-              <Form.Control ref={titleRef} required defaultValue={title} />
+              <Form.Control required ref={titleRef} />
             </Form.Group>
           </Col>
           <Col>
             <Form.Group controlId="tags">
-              <Form.Label>Tags</Form.Label>
+              <Form.Label>tag</Form.Label>
               <CreatableReactSelect
-
+                isMulti
+                value={selectedTags.map((tag) => {
+                  return { label: tag.label, value: tag.id };
+                })}
+                onChange={(tags) => {
+                  setSelectedTags(
+                    tags.map((tags) => {
+                      return { label: tag.label, id: tag.id };
+                    })
+                  );
+                }}
               />
             </Form.Group>
           </Col>
         </Row>
         <Form.Group controlId="markdown">
-          <Form.Label>Body</Form.Label>
-          <Form.Control
-            defaultValue={markdown}
-            required
-            as="textarea"
-            ref={markdownRef}
-            rows={15}
-          />
+          <Form.Label>Title</Form.Label>
+          <Form.Control required as="textarea" rows={12} ref={markdownRef} />
         </Form.Group>
         <Stack direction="horizontal" gap={2} className="justify-content-end">
           <Button type="submit" variant="primary">
@@ -74,5 +68,5 @@ export function NoteForm({
         </Stack>
       </Stack>
     </Form>
-  )
+  );
 }
