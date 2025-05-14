@@ -1,11 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, type RowProps } from "react-bootstrap";
 import { Navigate, Route, Routes } from "react-router-dom";
-import NewNote from "./components/NewNote";
-import NoteForm from "./components/NoteForm";
+import { NewNote } from "./components/NewNote";
 import { useLocalStorage } from "./useLocalStorage";
 import { useMemo } from "react";
-import {v4 as uuidV4} from "uuid"
+import { v4 as uuidV4 } from "uuid";
 export type Note = {
   id: string;
 } & NoteData;
@@ -43,16 +42,38 @@ function App() {
     });
   }, [notes, tags]);
 
-  functoin oncCreateNote(data: NoteData){
-    setNotes(prevNotes => {
-      return [...prevNotes, {data, id:uuidV4(), tagIds: tags.map(tag => tag.id)}]
-    })
+  function onCreateNote(data: NoteData) {
+    setNotes((prevNotes) => {
+      return [
+        ...prevNotes,
+        {
+          id: uuidV4(),
+          title: data.title,
+          markdown: data.markdown,
+          tagIds: data.tags.map((tag) => tag.id),
+        },
+      ];
+    });
   }
+
+  function addTag(tag: Tag) {
+    setTags((prev) => [...prev, tag]);
+  }
+
   return (
     <Container className="my-4">
       <Routes>
         <Route path="/" element={<h1>Home</h1>}></Route>
-        <Route path="/new" element={<NewNote onSubmit={onCreateNote}/>}></Route>
+        <Route
+          path="/new"
+          element={
+            <NewNote
+              onSubmit={onCreateNote}
+              onAddTag={addTag}
+              availableTags={tags}
+            />
+          }
+        ></Route>
 
         <Route path="/:id">
           <Route index element={<h1>Show</h1>} />
