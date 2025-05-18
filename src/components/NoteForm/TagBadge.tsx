@@ -1,6 +1,6 @@
 import React from "react";
 import { Badge } from "react-bootstrap";
-import type { Tag } from "./App";
+import type { Tag } from "../../App";
 
 export interface TagBadgeProps {
   tag: Tag;

@@ -2,9 +2,9 @@ import { useState, type Key } from "react";
 import { Button, Card, Col, Form, Modal, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
-import { TagBadge } from "./TagBadge";
-import type { Tag } from "./App";
-import { useFilteredNotes } from "./useFilteredNotes";
+import { TagBadge } from "../NoteForm/TagBadge";
+import type { Tag } from "../../App";
+import { useFilteredNotes } from "../../hooks/useFilteredNotes";
 import styles from "./NoteList.module.css";
 
 type SimplifiedNote = {

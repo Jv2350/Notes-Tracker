@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { Tag, NoteListProps } from "./App";
+import type { Tag, NoteListProps } from "../App";
 
 export function useFilteredNotes(
   notes: NoteListProps["notes"],
