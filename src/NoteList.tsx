@@ -1,17 +1,10 @@
-import { useMemo, useState } from "react";
-import {
-  Badge,
-  Button,
-  Card,
-  Col,
-  Form,
-  Modal,
-  Row,
-  Stack,
-} from "react-bootstrap";
+import { useState, type Key } from "react";
+import { Button, Card, Col, Form, Modal, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
+import { TagBadge } from "./TagBadge";
 import type { Tag } from "./App";
+import { useFilteredNotes } from "./useFilteredNotes";
 import styles from "./NoteList.module.css";
 
 type SimplifiedNote = {
@@ -45,40 +38,36 @@ export function NoteList({
   const [title, setTitle] = useState("");
   const [editTagsModalIsOpen, setEditTagsModalIsOpen] = useState(false);
 
-  const filteredNotes = useMemo(() => {
-    return notes.filter((note) => {
-      return (
-        (title === "" ||
-          note.title.toLowerCase().includes(title.toLowerCase())) &&
-        (selectedTags.length === 0 ||
-          selectedTags.every((tag) =>
-            note.tags.some((noteTag) => noteTag.id === tag.id)
-          ))
-      );
-    });
-  }, [title, selectedTags, notes]);
+  const filteredNotes = useFilteredNotes(notes, title, selectedTags);
 
   return (
     <>
-      <Row className="align-items-center mb-4">
+      <Row className="align-items-center mb-4 fade-in">
         <Col>
-          <h1>Notes</h1>
+          <h1
+            style={{ fontWeight: 700, color: "#2563eb", letterSpacing: "-1px" }}
+          >
+            Notes
+          </h1>
         </Col>
         <Col xs="auto">
           <Stack gap={2} direction="horizontal">
             <Link to="/new">
-              <Button variant="primary">Create</Button>
+              <Button variant="primary" className="shadow-sm">
+                Create
+              </Button>
             </Link>
             <Button
               onClick={() => setEditTagsModalIsOpen(true)}
               variant="outline-secondary"
+              className="shadow-sm"
             >
               Edit Tags
             </Button>
           </Stack>
         </Col>
       </Row>
-      <Form>
+      <Form className="fade-in">
         <Row className="mb-4">
           <Col>
             <Form.Group controlId="title">
@@ -87,6 +76,8 @@ export function NoteList({
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                placeholder="Search notes..."
+                autoComplete="off"
               />
             </Form.Group>
           </Col>
@@ -108,17 +99,43 @@ export function NoteList({
                   );
                 }}
                 isMulti
+                placeholder="Filter by tags..."
+                classNamePrefix="react-select"
               />
             </Form.Group>
           </Col>
         </Row>
       </Form>
-      <Row xs={1} sm={2} lg={3} xl={4} className="g-3">
-        {filteredNotes.map((note) => (
-          <Col key={note.id}>
-            <NoteCard id={note.id} title={note.title} tags={note.tags} />
+      <Row xs={1} sm={2} lg={3} xl={4} className="g-3 fade-in">
+        {filteredNotes.length === 0 ? (
+          <Col
+            className="text-center text-muted pt-5"
+            style={{ fontSize: "1.2rem" }}
+          >
+            No notes found.
           </Col>
-        ))}
+        ) : (
+          filteredNotes
+            .filter(
+              (note: { id: Key | null | undefined }) =>
+                typeof note.id === "string" && note.id !== ""
+            )
+            .map(
+              (note: {
+                id: Key | null | undefined;
+                title: string;
+                tags: Tag[];
+              }) => (
+                <Col key={note.id as string}>
+                  <NoteCard
+                    id={note.id as string}
+                    title={note.title}
+                    tags={note.tags}
+                  />
+                </Col>
+              )
+            )
+        )}
       </Row>
       <EditTagsModal
         onUpdateTag={onUpdateTag}
@@ -137,6 +154,8 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
       as={Link}
       to={`/${id}`}
       className={`h-100 text-reset text-decoration-none ${styles.card}`}
+      tabIndex={0}
+      aria-label={`Open note: ${title}`}
     >
       <Card.Body>
         <Stack
@@ -151,9 +170,7 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
               className="justify-content-center flex-wrap"
             >
               {tags.map((tag) => (
-                <Badge className="text-truncate" key={tag.id}>
-                  {tag.label}
-                </Badge>
+                <TagBadge tag={tag} key={tag.id} />
               ))}
             </Stack>
           )}

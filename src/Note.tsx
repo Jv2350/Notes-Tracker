@@ -1,7 +1,8 @@
-import { Badge, Button, Col, Row, Stack } from "react-bootstrap";
+import { Button, Col, Row, Stack } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useNote } from "./NoteLayout";
 import ReactMarkdown from "react-markdown";
+import { TagBadge } from "./TagBadge";
 
 type NoteProps = {
   onDelete: (id: string) => void;
@@ -19,9 +20,7 @@ export function Note({ onDelete }: NoteProps) {
           {note.tags.length > 0 && (
             <Stack gap={1} direction="horizontal" className="flex-wrap">
               {note.tags.map((tag) => (
-                <Badge className="text-truncate" key={tag.id}>
-                  {tag.label}
-                </Badge>
+                <TagBadge tag={tag} key={tag.id} />
               ))}
             </Stack>
           )}

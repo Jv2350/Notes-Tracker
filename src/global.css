@@ -1,0 +1,126 @@
+/* Global light theme styles for Notes Tracker */
+body {
+  background: linear-gradient(120deg, #f8fafc 0%, #e0e7ef 100%);
+  font-family: "Inter", "Segoe UI", "Roboto", "Arial", sans-serif;
+  color: #222;
+  margin: 0;
+  min-height: 100vh;
+}
+
+header {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 16px 0 rgba(59, 130, 246, 0.07);
+  padding: 2rem 0 1.2rem 0;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  border-bottom: 1px solid #e0e7ef;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+
+header h1 {
+  font-size: 2.3rem;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin: 0;
+  color: #2563eb;
+  text-shadow: 0 2px 8px rgba(59, 130, 246, 0.07);
+}
+
+.container-light {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 22px;
+  box-shadow: 0 4px 32px 0 rgba(59, 130, 246, 0.08);
+  padding: 2.5rem 3rem;
+  margin-bottom: 2.5rem;
+  max-width: 1100px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #e0e7ef;
+  border-radius: 8px;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-outline-secondary,
+.btn-outline-danger {
+  border-radius: 10px !important;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 0.5rem 1.2rem;
+  box-shadow: 0 2px 8px 0 rgba(59, 130, 246, 0.04);
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+  border: none;
+}
+.btn-primary:hover {
+  background: linear-gradient(90deg, #1d4ed8 60%, #3b82f6 100%);
+}
+
+.btn-outline-secondary {
+  border: 1.5px solid #e0e7ef !important;
+  color: #2563eb !important;
+  background: #f8fafc !important;
+}
+.btn-outline-secondary:hover {
+  background: #e0e7ef !important;
+  color: #1d4ed8 !important;
+}
+
+.btn-outline-danger {
+  border: 1.5px solid #fee2e2 !important;
+  color: #dc2626 !important;
+  background: #fff !important;
+}
+.btn-outline-danger:hover {
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+}
+
+/* Form tweaks */
+.form-control,
+.form-label {
+  border-radius: 10px;
+  font-size: 1.05rem;
+}
+
+.form-control:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px #60a5fa33;
+}
+
+/* Tag badges */
+.badge {
+  background: linear-gradient(90deg, #e0e7ef 60%, #f1f5f9 100%) !important;
+  color: #2563eb !important;
+  font-weight: 600;
+  border-radius: 8px !important;
+  font-size: 0.98rem;
+  padding: 0.4em 0.9em;
+  margin-right: 0.2em;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.7s cubic-bezier(0.39, 0.575, 0.56, 1) both;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}

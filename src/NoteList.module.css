@@ -1,9 +1,43 @@
 .card {
-  transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
+  background: linear-gradient(120deg, #f9fbfd 60%, #e0e7ef 100%);
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+  transition: transform 0.16s, box-shadow 0.16s;
+  min-height: 160px;
+  padding: 0.5rem 0.2rem;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  opacity: 0.98;
+  z-index: 1;
 }
 
 .card:hover,
 .card:focus {
-  translate: 0 -5px;
-  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(-6px) scale(1.035);
+  box-shadow: 0 10px 32px 0 rgba(59, 130, 246, 0.18);
+  opacity: 1;
+}
+
+.card .fs-5 {
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 1.18rem;
+  letter-spacing: -0.5px;
+}
+
+.card .badge {
+  margin-bottom: 0.2em;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, #60a5fa33 0%, transparent 70%);
+  z-index: 0;
 }
