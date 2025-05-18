@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useNote } from "../Layout/NoteLayout";
 import ReactMarkdown from "react-markdown";
 import { TagBadge } from "../NoteForm/TagBadge";
-import type { Tag } from "../../App";
+import type { Note } from "../../types/note";
 
 type NoteProps = {
   onDelete: (id: string) => void;
 };
 
 export function Note({ onDelete }: NoteProps) {
-  const note = useNote();
+  const note = useNote() as unknown as import("../../types/note").Note;
   const navigate = useNavigate();
 
   return (
@@ -20,7 +20,7 @@ export function Note({ onDelete }: NoteProps) {
           <h1>{note.title}</h1>
           {note.tags.length > 0 && (
             <Stack gap={1} direction="horizontal" className="flex-wrap">
-              {note.tags.map((tag: Tag) => (
+              {note.tags.map((tag: import("../../types/tag").Tag) => (
                 <TagBadge tag={tag} key={tag.id} />
               ))}
             </Stack>

@@ -8,33 +8,10 @@ import { useLocalStorage } from "./hooks/useLocalStorage";
 import { v4 as uuidV4 } from "uuid";
 import { NoteList } from "./components/NoteList/NoteList";
 import { NoteLayout } from "./components/Layout/NoteLayout";
-import { Note } from "./components/Note/Note";
+import { Note as NoteComponent } from "./components/Note/Note";
 import { EditNote } from "./components/EditNote/EditNote";
-
-export type Note = {
-  id: string;
-} & NoteData;
-
-export type RawNote = {
-  id: string;
-} & RawNoteData;
-
-export type RawNoteData = {
-  title: string;
-  markdown: string;
-  tagIds: string[];
-};
-
-export type NoteData = {
-  title: string;
-  markdown: string;
-  tags: Tag[];
-};
-
-export type Tag = {
-  id: string;
-  label: string;
-};
+import type { RawNote, NoteData } from "./types/note";
+import type { Tag } from "./types/tag";
 
 function App() {
   const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", []);
@@ -127,7 +104,7 @@ function App() {
             }
           />
           <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
-            <Route index element={<Note onDelete={onDeleteNote} />} />
+            <Route index element={<NoteComponent onDelete={onDeleteNote} />} />
             <Route
               path="edit"
               element={

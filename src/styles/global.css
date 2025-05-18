@@ -110,10 +110,6 @@ header h1 {
   margin-right: 0.2em;
 }
 
-/* Animations */
-.fade-in {
-  animation: fadeIn 0.7s cubic-bezier(0.39, 0.575, 0.56, 1) both;
-}
 @keyframes fadeIn {
   0% {
     opacity: 0;

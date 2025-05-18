@@ -3,7 +3,7 @@ import { Button, Card, Col, Form, Modal, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
 import { TagBadge } from "../NoteForm/TagBadge";
-import type { Tag } from "../../App";
+import type { Tag } from "../../types/tag";
 import { useFilteredNotes } from "../../hooks/useFilteredNotes";
 import styles from "./NoteList.module.css";
 
@@ -85,17 +85,20 @@ export function NoteList({
             <Form.Group controlId="tags">
               <Form.Label>Tags</Form.Label>
               <ReactSelect
-                value={selectedTags.map((tag) => {
-                  return { label: tag.label, value: tag.id };
-                })}
-                options={availableTags.map((tag) => {
-                  return { label: tag.label, value: tag.id };
-                })}
+                value={selectedTags.map((tag) => ({
+                  label: tag.label,
+                  value: tag.id,
+                }))}
+                options={availableTags.map((tag) => ({
+                  label: tag.label,
+                  value: tag.id,
+                }))}
                 onChange={(tags) => {
                   setSelectedTags(
-                    tags.map((tag) => {
-                      return { label: tag.label, id: tag.value };
-                    })
+                    (tags ?? []).map((tag) => ({
+                      label: tag.label,
+                      id: tag.value,
+                    }))
                   );
                 }}
                 isMulti
@@ -106,7 +109,14 @@ export function NoteList({
           </Col>
         </Row>
       </Form>
-      <Row xs={1} sm={2} lg={3} xl={4} className="g-3 fade-in">
+      <Row
+        xs={1}
+        sm={2}
+        lg={3}
+        xl={4}
+        className="g-3 fade-in"
+        style={{ position: "relative", zIndex: 0 }}
+      >
         {filteredNotes.length === 0 ? (
           <Col
             className="text-center text-muted pt-5"
@@ -126,7 +136,10 @@ export function NoteList({
                 title: string;
                 tags: Tag[];
               }) => (
-                <Col key={note.id as string}>
+                <Col
+                  key={note.id as string}
+                  style={{ position: "relative", zIndex: 0 }}
+                >
                   <NoteCard
                     id={note.id as string}
                     title={note.title}

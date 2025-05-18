@@ -1,4 +1,5 @@
-import type { NoteData, Tag } from "../../App";
+import type { NoteData } from "../../types/note";
+import type { Tag } from "../../types/tag";
 import { NoteForm } from "../NoteForm/NoteForm";
 
 type NewNoteProps = {
